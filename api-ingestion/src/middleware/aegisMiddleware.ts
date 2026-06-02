@@ -1,8 +1,8 @@
 import { FastifyRequest , FastifyReply,} from 'fastify';
 import crypto from 'crypto';
-import { pool } from '../config/db';
-import { redis } from '../config/redis';
-import { timeStamp } from 'console';
+import { pool } from '../config/db.js';
+import { redis} from "../scripts/rateLimiter.js"
+
 
 interface Tenant {
     id: string;
@@ -24,7 +24,7 @@ if(cached) return JSON.parse(cached);
 
 //2. Query Postgres
 const result = await pool.query(
-    'SELECT id,name, api_key_hash, rate_limit_rpm FROM tenant WHERE api_key_hash = $1',
+    'SELECT id,name, api_key_hash, rate_limit_rpm FROM tenants WHERE api_key_hash = $1',
     [apiKeyHash]
 )
 
