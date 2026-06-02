@@ -8,7 +8,7 @@ interface Tenant {
     id: string;
     name: string;
     api_key_hash: string;
-    raet_limit_rpm: number;
+    rate_limit_rpm: number;
 }
 
 function hashApiKey(key: string): string{
@@ -64,7 +64,7 @@ export const aegisMiddleware: any = async (
         rateLimitKey,
         now,
         windowMs,
-        tenant.raet_limit_rpm
+        tenant.rate_limit_rpm
     );
 
     if(allowed === 0){
@@ -76,7 +76,7 @@ export const aegisMiddleware: any = async (
     const hllKey = `unique_visitor:${tenant.id}:${todayStr}`;
 
     const ipHash = crypto.createHash('md5').update(request.ip).digest('hex');
-    await redis.pfadd(hllKey, ipHash)
+        await redis.pfadd(hllKey, ipHash)
 
     //3. Stream Telemetry Event to Redis Stream
     const eventPayload = {
