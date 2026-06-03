@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import { aegisMiddleware } from "./middleware/aegisMiddleware.js";
-import { timeStamp } from "console";
 
+//Turn on High Performance Logger
 const fastify = Fastify({
     logger: true,
 })
@@ -12,6 +12,8 @@ fastify.get('/health', async () => {
 })
 
 // 2. Protected Gateway Routes
+
+//isolated sandbox
 fastify.register((instance, opts, done) => {
 
     instance.addHook('preHandler', aegisMiddleware);
@@ -25,6 +27,8 @@ fastify.register((instance, opts, done) => {
     done();
 },{ prefix: '/api'})
 
+
+//starting Fastify server
 const port = parseInt(process.env.PORT || '3000', 10);
 const start = async () => {
     try{

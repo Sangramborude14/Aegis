@@ -1,23 +1,22 @@
 {
-  "name": "api-ingestion",
+  "name": "worker-consumer",
   "version": "1.0.0",
-  "description": "Aegis Ingestion API",
-  "main": "dist/index.js",
+  "description": "Aegis Analytics Worker Consumer",
+  "main": "dist/worker.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "tsx watch src/index.ts"
+    "start": "node dist/worker.js",
+    "dev": "tsx watch src/worker.ts"
   },
   "dependencies": {
-    "fastify": "^4.26.2",
     "ioredis": "^5.4.1",
     "pg": "^8.11.5"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
     "@types/pg": "^8.11.4",
-    "tsx": "4.7.1",
+    "tsx": "^4.7.1",
     "typescript": "^5.4.3"
   }
 }
