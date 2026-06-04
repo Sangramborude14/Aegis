@@ -57,7 +57,7 @@ async function processStream(){
                 const method = event.method;
                 const statusCode = event.statusCode || 200;
                 const ipHash = event.ipHash;
-                const createdAt = new Date(parseInt(event.timestamp || Date.now().toString(), 10))
+                const createdAt = new Date(parseInt(event.timeStamp || Date.now().toString(), 10))
                 const base = index * 6;
                 placeholders.push(`($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6})`);
 
