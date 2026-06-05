@@ -1,7 +1,7 @@
 # Dependencies
 FROM node:20-alpine AS deps
 WORKDIR /app
-COPY package*.jsom ./
+COPY package*.json ./
 RUN npm ci
 # Builder
 FROM node:20-alpine AS builder
@@ -24,7 +24,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/static ./.next/static
 
 #Copy standalone build server
-COPY --from-builder /app/ .next/standalone ./
+COPY --from=builder /app/.next/standalone ./
 
 EXPOSE 3002
 CMD ["node", "server.js"]

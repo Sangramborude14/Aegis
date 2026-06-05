@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: aegis-postgres
+    environment:
+      POSTGRES_USER: aegis_user
+      POSTGRES_PASSWORD: aegis_password
+      POSTGRES_DB: aegis_analytics
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: aegis-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_prod_data:/data
+
+  api-ingestion:
+    build:
+      context: ./api-ingestion
+      dockerfile: Dockerfile
+    container_name: aegis-api-ingestion
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: aegis_user
+      DB_PASSWORD: aegis_password
+      DB_NAME: aegis_analytics
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      PORT: 3000
+    depends_on:
+      - postgres
+      - redis
+
+  worker-consumer:
+    build:
+      context: ./worker-consumer
+      dockerfile: Dockerfile
+    container_name: aegis-worker
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: aegis_user
+      DB_PASSWORD: aegis_password
+      DB_NAME: aegis_analytics
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - postgres
+      - redis
+
+  dashboard-ui:
+    build:
+      context: ./dashboard-ui
+      dockerfile: Dockerfile
+    container_name: aegis-dashboard
+    ports:
+      - "3002:3002"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: aegis_user
+      DB_PASSWORD: aegis_password
+      DB_NAME: aegis_analytics
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      PORT: 3002
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_prod_data:
+  redis_prod_data:

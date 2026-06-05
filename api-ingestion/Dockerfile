@@ -6,7 +6,7 @@ RUN npm ci
 COPY src ./src
 RUN npm run build
 
-# Install production dependencies
+# Install production dependancies
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
@@ -20,4 +20,5 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./package.json
 
-CMD ["node", "dist/worker.js"]
+EXPOSE 3000
+CMD ["node", "dist/index.js"]
