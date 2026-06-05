@@ -1,10 +1,10 @@
-'use client';
+'use client'
 
 import { useEffect, useState } from 'react';
-import { useAnalyticsStore } from './stores/useAnalyticsStore.js';
+import { useAnalyticsStore } from './stores/useAnalyticsStore';
 import { 
   Activity, 
-  Clock, 
+  Clock,
   Users, 
   Shield, 
   RefreshCw, 

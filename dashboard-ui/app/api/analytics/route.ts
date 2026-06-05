@@ -1,6 +1,6 @@
 import { NextResponse} from 'next/server'
-import { pool } from '../../../lib/db.js'
-import { redis} from '../../../lib/redis.js'
+import { pool } from '../../../lib/db'
+import { redis } from '../../../lib/redis'
 
 export async function GET() {
     try{
