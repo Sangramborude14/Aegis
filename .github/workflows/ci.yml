@@ -1,0 +1,85 @@
+name: Aegis CI pipeline
+
+on: 
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  api-ci:
+    name: API Ingestion Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'api-ingestion/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd api-ingestion
+          npm ci
+
+      - name: Compile TypeScript (Build Check)
+        run: |
+          cd api-ingestion
+          npm run build
+
+  worker-ci:
+    name: Worker Consumer Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'worker-consumer/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd worker-consumer
+          npm ci
+
+      - name: Compile TypeScript (Build Check)
+        run: |
+          cd worker-consumer
+          npm run build
+
+  dashboard-ci:
+    name: Next.js Dashboard Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'dashboard-ui/package-lock.json'
+      
+      - name: Install dependencies
+        run: |
+          cd dashboard-ui
+          npm ci
+
+      - name: Run ESLint
+        run: |
+          cd dashboard-ui
+          npm run lint
+
+      - name: Build Next.js Site (Production Compilation)
+        run: |
+          cd dashboard-ui
+          npm run build
