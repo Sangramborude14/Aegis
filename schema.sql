@@ -23,5 +23,5 @@ CREATE INDEX IF NOT EXISTS idx_analytics_tenant_date ON analytics_events(tenant_
 
 -- Seed default tenant (Acme Corp) with SHA-256 hashed API key of 'test_api_key_123'
 INSERT INTO tenants (name, api_key_hash, rate_limit_rpm) 
-VALUES ('Acme Corp', '934444547be0b9a674395cf90df9d1d8a658fe9694291122a2757270e53a5c10', 60)
+VALUES ('Acme Corp', '4336c7238202538d35ed527cc5ca05417bbd2222164c489707b667e4368ef9e6', 60)
 ON CONFLICT (api_key_hash) DO NOTHING;

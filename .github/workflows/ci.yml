@@ -72,7 +72,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd dashboard-ui
-          npm ci
+          npm install
 
       - name: Run ESLint
         run: |
@@ -82,4 +82,4 @@ jobs:
       - name: Build Next.js Site (Production Compilation)
         run: |
           cd dashboard-ui
-          npm run build
+          npm run build 
